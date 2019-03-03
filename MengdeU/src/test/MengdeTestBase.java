@@ -1,3 +1,5 @@
+package test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
@@ -7,17 +9,15 @@ import org.junit.jupiter.api.Test;
 import no.hvl.dat102.mengde.adt.MengdeADT;
 import no.hvl.dat102.mengde.kjedet.KjedetMengde;
 
-public abstract class MengdeTestBase<T> {
-	
-	private T klasse;
+public abstract class MengdeTestBase<T extends MengdeADT<T>> {
 	
 	protected abstract T createInstance();
 	
-	private	MengdeADT<T> m1;
-	private MengdeADT<T> m2;
-	private MengdeADT<T> union;
-	private MengdeADT<T> snitt;
-	private MengdeADT<T> differens;
+	private	MengdeADT<Integer> m1;
+	private MengdeADT<Integer> m2;
+	private MengdeADT<Integer> union;
+	private MengdeADT<Integer> snitt;
+	private MengdeADT<Integer> differens;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -27,16 +27,20 @@ public abstract class MengdeTestBase<T> {
 		snitt = createInstance();
 		differens = createInstance();
 		
-		m1.leggTilAlle(1, 2, 3, 4, 5);
-		m2.leggTilAlle(5, 6, 7, 8, 9);
-		union.leggTilAlle(1, 2, 3, 4, 5, 6, 7, 8, 9);
-		snitt.leggTil(5);
-		differens.leggTilAlle(1, 2, 3, 4, 6, 7, 8, 9);
+		for (int i = 1; i < 6; i++) {
+			m1.leggTil(i);		// {1, 2, 3, 4, 5}
+			m2.leggTil(i+4); 	// {5, 6, 7, 8, 9}
+			union.leggTil(i);
+			union.leggTil(i+4);	// {1, 2, 3, 4, 5, 6, 7, 8, 9}
+		}
+		snitt.leggTil(5);  		// {5}
+		differens.leggTilAlle(union);
+		differens.fjern(5);		// {1, 2, 3, 4, 6, 7, 8, 9}
 	}
 	
 	@Test
 	void nyMengdeErTom() {
-		m1 = createInstance();
+		m1 = (MengdeADT<Integer>)createInstance();
 		assertTrue(m1.antall() == 0);
 		assertTrue(m1.erTom());
 	}
@@ -55,8 +59,8 @@ public abstract class MengdeTestBase<T> {
 	
 	@Test
 	void leggTilAlleFungerer() {
-		m1.leggTilAlle(new Integer[2] {6, 7});
-		assertTrue(m1.inneholder(6) && m1.inneholder(7));
+		m1.leggTilAlle(m2);
+		assertTrue(m1.equals(union));
 	}
 	
 	@Test
@@ -66,7 +70,7 @@ public abstract class MengdeTestBase<T> {
 	
 	@Test
 	void snittFungerer() {
-		assertTrue(m1.snitt(m2).equals(union));
+		assertTrue(m1.snitt(m2).equals(snitt));
 	}
 	
 	@Test
