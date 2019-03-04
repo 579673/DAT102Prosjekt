@@ -1,15 +1,8 @@
 package test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import no.hvl.dat102.mengde.adt.MengdeADT;
 import no.hvl.dat102.mengde.kjedet.KjedetMengde;
 
-class KjedetMengdeTest extends MengdeTestBase {
+class KjedetMengdeTest extends MengdeTestBase<KjedetMengde<Integer>> {
 	
 	@Override
 	protected KjedetMengde<Integer> createInstance() {

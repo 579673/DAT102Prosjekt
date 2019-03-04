@@ -1,19 +1,17 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import no.hvl.dat102.mengde.adt.MengdeADT;
-import no.hvl.dat102.mengde.kjedet.KjedetMengde;
 
-public abstract class MengdeTestBase<T extends MengdeADT<T>> {
+public abstract class MengdeTestBase<T extends MengdeADT<Integer>> {
 	
-	protected abstract T createInstance();
+	protected abstract MengdeADT<Integer> createInstance();
 	
-	private	MengdeADT<Integer> m1;
+	private MengdeADT<Integer> m1;
 	private MengdeADT<Integer> m2;
 	private MengdeADT<Integer> union;
 	private MengdeADT<Integer> snitt;
@@ -40,7 +38,7 @@ public abstract class MengdeTestBase<T extends MengdeADT<T>> {
 	
 	@Test
 	void nyMengdeErTom() {
-		m1 = (MengdeADT<Integer>)createInstance();
+		m1 = createInstance();
 		assertTrue(m1.antall() == 0);
 		assertTrue(m1.erTom());
 	}

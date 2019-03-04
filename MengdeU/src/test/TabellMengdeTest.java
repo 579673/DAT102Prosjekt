@@ -1,12 +1,11 @@
 package test;
 
-import no.hvl.dat102.mengde.adt.MengdeADT;
 import no.hvl.dat102.mengde.tabell.TabellMengde;
 
-class TabellMengdeTest extends MengdeTestBase<Integer> {
+class TabellMengdeTest extends MengdeTestBase<TabellMengde<Integer>> {
 	
 	@Override
-	protected MengdeADT<Integer> createInstance() {
+	protected TabellMengde<Integer> createInstance() {
 		return new TabellMengde<Integer>();
 	}
 	
