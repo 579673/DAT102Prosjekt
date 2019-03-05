@@ -26,14 +26,14 @@ public abstract class MengdeTestBase<T extends MengdeADT<Integer>> {
 		differens = createInstance();
 		
 		for (int i = 1; i < 6; i++) {
-			m1.leggTil(i);		// {1, 2, 3, 4, 5}
-			m2.leggTil(i+4); 	// {5, 6, 7, 8, 9}
+			m1.leggTil(i);			// {1, 2, 3, 4, 5}
+			m2.leggTil(i+4); 		// {5, 6, 7, 8, 9}
 			union.leggTil(i);
-			union.leggTil(i+4);	// {1, 2, 3, 4, 5, 6, 7, 8, 9}
+			union.leggTil(i+4);		// {1, 2, 3, 4, 5, 6, 7, 8, 9}
+			if (i < 5)
+				differens.leggTil(i); // {1, 2, 3, 4}
 		}
-		snitt.leggTil(5);  		// {5}
-		differens.leggTilAlle(union);
-		differens.fjern(5);		// {1, 2, 3, 4, 6, 7, 8, 9}
+		snitt.leggTil(5);  			// {5}
 	}
 	
 	@Test
@@ -52,7 +52,19 @@ public abstract class MengdeTestBase<T extends MengdeADT<Integer>> {
 	@Test
 	void fjernFungerer() {
 		m1.fjern(1);
-		assertTrue(!m1.inneholder(1));
+		assertFalse(m1.inneholder(1));
+	}
+	
+	@Test
+	void equalsFungerer() {
+		assertTrue(m1.equals(m1));
+		assertFalse(m1.equals(m2));
+	}
+	
+	@Test
+	void inneholderFungerer() {
+		assertTrue(m1.inneholder(1));
+		assertFalse(m1.inneholder(6));
 	}
 	
 	@Test

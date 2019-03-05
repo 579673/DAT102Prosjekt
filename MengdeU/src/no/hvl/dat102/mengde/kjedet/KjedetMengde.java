@@ -59,28 +59,79 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 			antall--;
 		} // if
 		return resultat;
-	}//
-
+	}
+	/*
+	//TODO: Fjern funker ikke skikkelig, må fikses
 	@Override
 	public T fjern(T element) {
+		if (antall == 0)
+			return null;
+		if (!this.inneholder(element))
+			return null;
+		
 		LinearNode<T> forgjenger = null, aktuell = start;
 		T resultat = null;
-		if (!this.inneholder(element))
-			return element;
 		
 		while (resultat == null) {
 			if (aktuell.getElement().equals(element)) {
 				resultat = element;
-				if (forgjenger == null)
-					start = aktuell.getNeste();
-				else
-					forgjenger.setNeste(aktuell.getNeste());
+				
+				if (forgjenger == null) {
+					if (aktuell.getNeste() == null) {
+						start = null;
+					} else if (aktuell.getNeste() != null) {
+						start = aktuell.getNeste();
+					}
+				} else {
+					if (aktuell.getNeste() == null)
+						forgjenger.setNeste(null);
+					else 
+						forgjenger.setNeste(aktuell.getNeste());
+				} 
 			}
 			forgjenger = aktuell;
-			aktuell = aktuell.getNeste();
+			if (aktuell.getNeste() != null)
+				aktuell = aktuell.getNeste();
 		}
 		return resultat;
-	}
+	}*/
+	
+	@Override
+    public T fjern(T element) {
+        boolean funnet = false;
+        LinearNode<T> forgjenger= start, aktuell = start;
+       
+        if(antall == 0) {
+            return null;
+        }
+        else {
+       
+            if(start.getElement().equals(element)) {
+                start = start.getNeste();
+                antall--;
+                return element;
+            }else if(antall != 1){
+                while(aktuell.getNeste() != null && !funnet) {
+                    forgjenger = aktuell;
+                    aktuell = aktuell.getNeste();
+                   
+                    if(aktuell.getElement().equals(element)) {
+                        funnet = true;
+                    }
+                }
+               
+                if(funnet) {
+                    forgjenger.setNeste(aktuell.getNeste());
+                    antall--;
+                    return element;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+    }
 
 	@Override
 	public MengdeADT<T> union(MengdeADT<T> m2) {
@@ -125,12 +176,12 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 			if (!m2.inneholder(element))
 				((KjedetMengde<T>)differensM).settInn(element);
 		}
-		itr = m2.oppramser();
+		/*itr = m2.oppramser();
 		while (itr.hasNext()) {
 			element = (T)itr.next();
 			if (!this.inneholder(element))
 				((KjedetMengde<T>)differensM).settInn(element);
-		}
+		}*/
 		return differensM;
 	}
 
@@ -188,5 +239,11 @@ public class KjedetMengde<T> implements MengdeADT<T> {
 		start = nyNode;
 		antall++;
 	}
+	/*
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+	}
+	*/
 
 }// class
